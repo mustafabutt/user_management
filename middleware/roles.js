@@ -21,8 +21,9 @@ module.exports =  () => {
         checkRoles:  (body,method) => {
             try{
                 return new Promise((resolve,reject)=>{
-
+                    let tempIdsArray = [];
                     if(body.hasOwnProperty("roles")){
+
                         body.roles.forEach((role,i)=>{
                             if(!_.contains([C.MANAGER,C.GLOBAL_MANAGER,C.REGULAR],role.role.toLowerCase()))
                             {
@@ -32,7 +33,7 @@ module.exports =  () => {
                             {
                                 reject({msg:C.BAD_REQUEST,status:400})
                             }
-                            if((method != "PUT" && role.groupId != C.EMPTY) && (role.role.toLowerCase() == C.GLOBAL_MANAGER && role.groupId != C.EMPTY))
+                            if((method != "PUT" && role.groupId != C.EMPTY) && (role.role.toLowerCase() == C.GLOBAL_MANAGER && role.groupId != C.NULL))
                             {
                                 reject({msg:C.BAD_REQUEST,status:400})
                             }
@@ -48,16 +49,22 @@ module.exports =  () => {
                             {
                                 reject({msg:C.BAD_REQUEST,status:400})
                             }
+                            tempIdsArray.push(role.groupId)
                             if(i == body.roles.length - 1){
 
-                                //checking groups coming in the req.body are valid
-                                utils.fetchSpecificGroups(body.roles)
-                                    .then((resp)=>{
-                                        resolve(resp)
-                                    })
-                                    .catch((err)=>{
-                                        reject({msg:C.BAD_REQUEST,status:400})
-                                    })
+                                //making sure user does not have multiple roles in a single group
+                                let tempArray = _.uniq(tempIdsArray);
+                                if(tempArray.length == tempIdsArray.length){
+                                    //checking groups coming in the req.body are valid
+                                    utils.fetchSpecificGroups(body.roles)
+                                        .then((resp)=>{
+                                            resolve(resp)
+                                        })
+                                        .catch((err)=>{
+                                            reject({msg:C.BAD_REQUEST,status:400})
+                                        })
+                                }else  reject({msg:C.BAD_REQUEST,status:400})
+
 
                             }
 
@@ -112,27 +119,27 @@ module.exports =  () => {
 
                 let tempArray = [];
                 return new Promise((resolve,reject)=>{
-                asyncLoop(body.roles, async function (item, next)
-                {
-                    if(item.role.toLowerCase() == C.GLOBAL_MANAGER)
-                        item.groupId = "";
-                    rolesModal.findOneAndUpdate({_id:item._id},{$set: item},{
-                        new:true
-                    },(err,doc)=>{
-                        if(!err){
-                            tempArray.push(doc);
-                            next();
-                        }
-                    })
-
-                }, (err,res) => {
-                    if(err){
-                        reject({
-                        status:501,
-                        msg:"error while updating roles"
+                    asyncLoop(body.roles, async function (item, next)
+                    {
+                        if(item.role.toLowerCase() == C.GLOBAL_MANAGER)
+                            item.groupId = "";
+                        rolesModal.findOneAndUpdate({_id:item._id},{$set: item},{
+                            new:true
+                        },(err,doc)=>{
+                            if(!err){
+                                tempArray.push(doc);
+                                next();
+                            }
                         })
-                    }
-                    resolve({status:204,roles:tempArray})
+
+                    }, (err,res) => {
+                        if(err){
+                            reject({
+                                status:501,
+                                msg:"error while updating roles"
+                            })
+                        }
+                        resolve({status:204,roles:tempArray})
 
                     })
 
