@@ -1,0 +1,29 @@
+{
+  "currentEnv": "dev",
+  "local": {
+    "screenName": "LOCAL",
+    "BackendProtocol": "http://",
+    "BackendHost": "localhost",
+    "BackendPort": 3001,
+    "user":"",
+    "pass":""
+  },
+  "staging": {
+    "screenName": "STAGING",
+    "BackendProtocol": "http://",
+    "BackendHost": "localhost",
+    "BackendPort": 3001,
+    "user":"",
+    "pass":""
+  },
+  "production": {
+    "screenName": "PRODUCTION",
+    "BackendProtocol": "http://",
+    "BackendHost": "localhost",
+    "BackendPort": 3001,
+    "user":"",
+    "pass":""
+  }
+}
+
+

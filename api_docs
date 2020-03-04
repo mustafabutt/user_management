@@ -1,0 +1,78 @@
+<h3>Assumptions</h3>
+
+1 API is receiving user token and current group ID(i.e. in which he is going to logged in) in the headers.<br />
+2 We have set the user details on server based on that token coming in the headers.<br />
+3 So, user needs to send two values in the headers(i.e. token, currentgroup)to work with this api<br />
+
+
+users
+    user/create:
+        {
+            "email": "mustafabutt@gmail.com",
+            "roles":[{ "groupId": "11",  "role": "Manager"}]
+        }
+    user/edit:
+        {
+            "_id": "5e5ba429681bc44961de6338",
+            "email": "mustafabutt10@gmail.com",
+            "roles":[{ "groupId": "11",  "role": "Manager",  "_id": "5e5ba429681bc44961de6336"}]
+        }
+    /user/delete:
+        {
+            "_id":"5e5bc74404bec74b0c69b138",
+             "roles":[{ "groupId": "11",  "role": "Manager",  "_id": "5e5ba429681bc44961de6336"}]
+        }
+    /user/get:
+
+groups
+    /group/create:
+        {
+            "name": "group1",
+            "collectionIds":["5e5e23d2ace8a55d5ab00d15","5e5e23ddace8a55d5ab00d16"]
+        }
+    /group/edit:
+        {
+        	"_id":"5e5e31891982f05e426a1e75",
+            "name": "group12",
+            "collectionIds":["5e5e23d2ace8a55d5ab00d15"]
+        }
+    /group/delete:
+        {
+            "_id":"5e5c2d99cdd0954f46eaf27e",
+        }
+    /group/get:
+
+collections
+    /collection/create:
+        {
+        	"name":"collection2"
+        }
+
+    /collection/edit:
+        {
+            "_id":"5e5e23d2ace8a55d5ab00d15",
+            "name":"collection2"
+        }
+    /collection/delete:
+        {
+        	"_id":"5e5e23d2ace8a55d5ab00d15"
+        }
+    /collection/get:
+
+items
+    /item/create:
+        {
+            "name":"item1",
+            parentId : "5e5e23d2ace8a55d5ab00d15"
+        }
+
+    /item/edit:
+        {
+            "_id":"5e5e23d2ace8a55d5ab00d15",
+            "name":"item2"
+        }
+    /item/delete:
+        {
+            "_id":"5e5e23d2ace8a55d5ab00d15"
+        }
+    /item/get:
