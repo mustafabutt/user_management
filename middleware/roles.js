@@ -32,7 +32,7 @@ module.exports =  () => {
                             {
                                 reject({msg:C.BAD_REQUEST,status:400})
                             }
-                            if(method != "PUT" && (role.role.toLowerCase() == C.GLOBAL_MANAGER && role.groupId != C.EMPTY))
+                            if((method != "PUT" && role.groupId != C.EMPTY) && (role.role.toLowerCase() == C.GLOBAL_MANAGER && role.groupId != C.EMPTY))
                             {
                                 reject({msg:C.BAD_REQUEST,status:400})
                             }
