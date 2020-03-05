@@ -72,9 +72,10 @@ module.exports =  () => {
             let tempArray = [];
             groups.forEach((item)=>{
                 tempObj = {_id:""};
-                if(typeof item.groupId != undefined || item.groupId != null ){
-                    tempObj._id=item.groupId
-                }else tempArray.push(tempObj);
+                if(typeof item.groupId != undefined && item.groupId != null ){
+                    tempObj._id=item.groupId;
+                    tempArray.push(tempObj);
+                }
 
             })
             return new Promise((resolve,reject)=>{
