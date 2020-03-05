@@ -45,7 +45,6 @@ module.exports =  () => {
 
                     asyncLoop(res, async function (g, next)
                     {
-                        console.log(_.intersection(val,g.collectionIds))
                         if(_.intersection(val,g.collectionIds).length != 0){
                             bit = true;
                             reject()
@@ -72,27 +71,26 @@ module.exports =  () => {
             let tempArray = [];
             groups.forEach((item)=>{
                 tempObj = {_id:""};
-                if(typeof item.groupId != undefined && item.groupId != null ){
-                    tempObj._id=item.groupId;
-                    tempArray.push(tempObj);
-                }
+                if(typeof item.groupId != undefined || item.groupId != null ){
+                    tempObj._id=item.groupId
+                }else tempArray.push(tempObj);
 
             })
-            return new Promise((resolve,reject)=>{
-
-                groupModal.find({
-                    '_id': { $in: tempArray}
-                }, (err, docs)=>{
-                    if(err)
-                        reject(err)
-                    resolve(docs)
-                });
+            return new Promise((resolve,reject)=> {
+                if (groups.length != 1 && (groups[0].groupId != "")){
+                    groupModal.find({
+                        '_id': {$in: tempArray}
+                    }, (err, docs) => {
+                        if (err)
+                            reject(err)
+                        resolve(docs)
+                    });
+                } else resolve()
             })
 
         }
 
     }
-
 
 }
 
