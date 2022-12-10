@@ -9,7 +9,7 @@
   "dependencies": {
     "async": "^2.6.2",
     "async-each-series": "^1.1.0",
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "googleapis": "^43.0.0",
     "helmet": "^3.18.0",
     "host": "0.0.1",
